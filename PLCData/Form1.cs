@@ -16,7 +16,8 @@ namespace PLCData
     public partial class Form1 : Form
     {
 
-        TestRandomReader reader1, reader2;
+        TestRandomReader reader1;
+        MXComponentPLCReader reader2;
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +28,7 @@ namespace PLCData
             this.UIPLCStatus1.setReader(this.reader1);
             this.UIPLCStatus1.setName("Test1");
 
-            this.reader2 = new TestRandomReader(2);
+            this.reader2 = new MXComponentPLCReader(1, "Y1", "Y2");
 
             this.reader2.addConnectionCallback(new TestConnectionCallback());
             this.reader2.addDataCallback(new TestDataCallback());
@@ -38,7 +39,7 @@ namespace PLCData
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
-            this.reader2.ok = !this.reader2.ok;
+            //this.reader2.ok = !this.reader2.ok;
         }
 
         private void button1_Click(object sender, EventArgs e)
