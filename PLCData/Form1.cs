@@ -28,7 +28,7 @@ namespace PLCData
             this.UIPLCStatus1.setReader(this.reader1);
             this.UIPLCStatus1.setName("Test1");
 
-            this.reader2 = new MXComponentPLCReader(1, "Y1", "Y2");
+            this.reader2 = new MXComponentPLCReader(1, "D000", "D000", "D05", 0, 10);
 
             this.reader2.addConnectionCallback(new TestConnectionCallback());
             this.reader2.addDataCallback(new TestDataCallback());
