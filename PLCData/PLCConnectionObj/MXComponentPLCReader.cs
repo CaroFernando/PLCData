@@ -76,7 +76,7 @@ namespace PLCData.PLCConnectionObj
             try
             {
                 int value = 0;
-                value = 0b0000_0000_0000_0001;
+                //value = 0b0000_0000_0000_0001;
 
                 PLC.GetDevice(this.okAddress, out value);
                 
@@ -186,7 +186,7 @@ namespace PLCData.PLCConnectionObj
 
                 return new DataStatus(
                     this.PLCId,
-                    status,
+                    state,
                     new Status(
                         true, 
                         new Log(

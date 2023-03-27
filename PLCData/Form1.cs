@@ -21,9 +21,11 @@ namespace PLCData
         public Form1()
         {
             InitializeComponent();
-            this.reader1 = new TestRandomReader(1);
+            this.reader1 = new TestRandomReader(2);
 
             this.reader1.addConnectionCallback(new TestConnectionCallback());
+            this.reader1.addConnectionCallback(new APIConnectionCallback());
+            this.reader1.addDataCallback(new APICallDataCallback());
             this.reader1.addDataCallback(new TestDataCallback());
             this.UIPLCStatus1.setReader(this.reader1);
             this.UIPLCStatus1.setName("Test1");

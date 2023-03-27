@@ -35,8 +35,40 @@ namespace PLCData.PLCConnectionObj
 
         public override DataStatus readData()
         {
-            int num = new Random().Next(0, 100);
-            return new DataStatus(this.PLCId, num, new Status(true, new Log(this.PLCId, "ok")));
+            string serialNumber = "";
+            Random random = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                serialNumber += (char)random.Next(65, 90);
+            }
+
+            // randomly choose between ok, overbaked and underbake
+            string status = "gg";
+            string state = "";
+            
+            switch (new Random().Next(0, 3))
+            {
+                case 0:
+                    state = "ok";
+                    break;
+                case 1:
+                    state = "overbaked";
+                    status = "ng";
+                    break;
+                case 2:
+                    state = "underbaked";
+                    status = "ng";
+                    break;
+            }
+
+            dynamic data = new
+            {
+                serialNumber = serialNumber,
+                status = status
+            };
+
+            return new DataStatus(this.PLCId, data, new Status(true, new Log(this.PLCId, state)));
         }
     }
 }
