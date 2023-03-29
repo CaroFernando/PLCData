@@ -165,6 +165,7 @@ namespace PLCData.PLCConnectionObj
                 PLC.SetDevice(this.readAddress, status);
 
                 string state = "";
+                string gng = "G";
                 
                 // check state bits of ok, overbake and underbake
 
@@ -175,22 +176,30 @@ namespace PLCData.PLCConnectionObj
                 else if ((status & (1 << STATUS_OVERBAKE_BIT)) != 0)
                 {
                     state = "overbake";
+                    gng = "NG";
                 }
                 else if ((status & (1 << STATUS_UNDERBAKE_BIT)) != 0)
                 {
                     state = "underbake";
+                    gng = "NG";
                 }
 
                 // print value
                 Console.WriteLine("Read data from " + this.PLCName + ": " + status);
 
+                dynamic data = new
+                {
+                    serialNumber = serialNumber,
+                    status = gng
+                };
+
                 return new DataStatus(
                     this.PLCId,
-                    state,
+                    data,
                     new Status(
                         true, 
                         new Log(
-                            this.PLCId, "ok"
+                            this.PLCId, state
                         )
                     )
                 );
