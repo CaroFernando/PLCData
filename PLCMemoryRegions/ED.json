@@ -1,0 +1,25 @@
+{
+    "NAME": "ED",
+    "PHYSICAL_ID" : 1,
+    "VIRTUAL_ID" : 1,
+    "STATUS_OK_MEM" : "M1100",
+    "STATUS_OVERBAKE_MEM" : "M1101",
+    "STATUS_UNDERBAKE_MEM" : "M1102",
+    "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+    "MASTER_PLC_CONECTION_MEM" : "M1105",
+    "READ_MEM" : "M1108",
+    "READING_MEM" : "M1109",
+    "READ_COMPLETED_MEM" : "M1110",
+    "SERIAL_NUMBER_MEMS" : [
+        "D500",
+        "D501",
+        "D502",
+        "D503",
+        "D504",
+        "D505",
+        "D506",
+        "D507",
+        "D508",
+        "D509"
+    ]
+}

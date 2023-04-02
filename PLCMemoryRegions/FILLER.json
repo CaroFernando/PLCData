@@ -1,0 +1,25 @@
+{
+    "NAME": "FILLER",
+    "PHYSICAL_ID" : 1,
+    "VIRTUAL_ID" : 2,
+    "STATUS_OK_MEM" : "M1116",
+    "STATUS_OVERBAKE_MEM" : "M1117",
+    "STATUS_UNDERBAKE_MEM" : "M1118",
+    "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+    "MASTER_PLC_CONECTION_MEM" : "M1121",
+    "READ_MEM" : "M1124",
+    "READING_MEM" : "M1125",
+    "READ_COMPLETED_MEM" : "M1126",
+    "SERIAL_NUMBER_MEMS" : [
+        "D510",
+        "D511",
+        "D512",
+        "D513",
+        "D514",
+        "D515",
+        "D516",
+        "D517",
+        "D518",
+        "D519"
+    ]
+}

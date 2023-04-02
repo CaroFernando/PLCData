@@ -64,7 +64,7 @@
             this.NameLabel.AutoSize = true;
             this.NameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F);
             this.NameLabel.Location = new System.Drawing.Point(0, 0);
-            this.NameLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.NameLabel.Margin = new System.Windows.Forms.Padding(0);
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(126, 46);
             this.NameLabel.TabIndex = 3;
@@ -84,7 +84,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(223, 237);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(464, 237);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // UIPLCStatus
@@ -93,7 +93,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "UIPLCStatus";
-            this.Size = new System.Drawing.Size(289, 286);
+            this.Size = new System.Drawing.Size(530, 286);
             this.Load += new System.EventHandler(this.UIPLCStatus_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

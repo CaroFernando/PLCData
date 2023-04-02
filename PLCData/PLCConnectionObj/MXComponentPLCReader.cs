@@ -1,109 +1,124 @@
 ﻿using ActUtlTypeLib;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
+// json
+using Newtonsoft.Json;
 
 namespace PLCData.PLCConnectionObj
 {
     public class MXComponentPLCReader : PLCReader
     {
-        private ActUtlType PLC = new ActUtlType();
-        private int deviceID;
-        private string readAddress = "";
-        private string okAddress = "";
+        public ActUtlType PLC = new ActUtlType();
 
-        private string serialNumberAdress = "";
-        private int serialNumberStartAdress = 0;
-        private int serialNumberLength = 0;
+        public string NAME = "";
 
-        private string PLCName = "";
+        public int PHYSICAL_ID = 0;
+        public int VIRTUAL_ID = 0;
 
-        private const int STATUS_OK_BIT = 0;
-        private const int STATUS_OVERBAKE_BIT = 1;
-        private const int STATUS_UNDERBAKE_BIT = 2;
-        
-        private const int SERVER_CONNECTION_FLAG_BIT = 4;
-        private const int MASTER_PLC_CONECTION_BIT = 5;
-        
-        private const int READ_BIT = 8;
-        private const int READING_BIT = 9;
-        private const int READ_COMPLETED_BIT = 10;
+        public string STATUS_OK_MEM = "";
+        public string STATUS_OVERBAKE_MEM = "";
+        public string STATUS_UNDERBAKE_MEM = "";
 
-        private static int TurnBitOn(int value, int bit)
-        {
-            int res = value | (1 << bit);
-            return res;
-        }
+        public string SERVER_CONNECTION_FLAG_MEM = "";
+        public string MASTER_PLC_CONECTION_MEM = "";
 
-        private static int TurnBitOff(int value, int bit)
-        {
-            int res = value & ~(1 << bit);
-            return res;
-        }
+        public string READ_MEM = "";
+        public string READING_MEM = "";
+        public string READ_COMPLETED_MEM = "";
+
+        public List<string> SERIAL_NUMBER_MEMS = new List<string>();
 
         public MXComponentPLCReader(
-            int deviceID, 
-            string readAdress, 
-            string okAddress, 
-            string serialNumberAdress, 
-            int startAddress, 
-            int serialNumberLength
+            int physicalID,
+            int deviceID
         ) : base(deviceID)
         {
-            this.deviceID = deviceID;
-            this.readAddress = readAdress;
-            this.okAddress = okAddress;
+            this.PHYSICAL_ID = physicalID;
+            this.VIRTUAL_ID = deviceID;
 
-            this.serialNumberAdress = serialNumberAdress;
-            this.serialNumberStartAdress = startAddress;
-            this.serialNumberLength = serialNumberLength;
-
-            PLC.ActLogicalStationNumber = Convert.ToInt16(deviceID);
+            PLC.ActLogicalStationNumber = Convert.ToInt16(physicalID);
             PLC.Open();
-            
-            int code = 0;
+        }
 
-            PLC.GetCpuType(out this.PLCName, out code);
-            this.PLCName += " " + code;
+        public void LoadFromJSON(string json)
+        {
+            dynamic data = JsonConvert.DeserializeObject(json);
+
+            this.NAME = data["NAME"];
+            this.STATUS_OK_MEM = data["STATUS_OK_MEM"];
+            this.STATUS_OVERBAKE_MEM = data["STATUS_OVERBAKE_MEM"];
+            this.STATUS_UNDERBAKE_MEM = data["STATUS_UNDERBAKE_MEM"];
+            this.SERVER_CONNECTION_FLAG_MEM = data["SERVER_CONNECTION_FLAG_MEM"];
+            this.MASTER_PLC_CONECTION_MEM = data["MASTER_PLC_CONECTION_MEM"];
+            this.READ_MEM = data["READ_MEM"];
+            this.READING_MEM = data["READING_MEM"];
+            this.READ_COMPLETED_MEM = data["READ_COMPLETED_MEM"];
+
+            foreach (var mem in data["SERIAL_NUMBER_MEMS"])
+            {
+                this.SERIAL_NUMBER_MEMS.Add((string)mem);
+            }
         }
 
         public override DataStatus readOk()
         {
             try
             {
-                int value = 0;
-                //value = 0b0000_0000_0000_0001;
+                //Console.WriteLine("Trynig to read OK status from PLC " + this.PHYSICAL_ID + " " + this.VIRTUAL_ID);
+                // check if the slave plc is connected
+                int master_to_slave_disconnection = 0;
+                PLC.GetDevice(this.MASTER_PLC_CONECTION_MEM, out master_to_slave_disconnection);
 
-                PLC.GetDevice(this.okAddress, out value);
-                
-                bool can_read = (value & (1 << READ_BIT)) != 0;
-
-                // if is disconnected
-                if ((value & (1 << SERVER_CONNECTION_FLAG_BIT)) != 0)
+                if(master_to_slave_disconnection != 0)
                 {
                     return new DataStatus(
                         this.PLCId,
                         "failed",
                         new Status(
                             false,
-                            new Log(this.PLCId, "Master PLC is not connected to PLC")
+                            new Log(this.PLCId, "Dispositivo desconectado de PLC maestro")
                         )
                     );
                 }
 
-                // print value
-                Console.WriteLine("Value: " + value);
+                //Console.WriteLine("Master to slave connection is OK");
+
+                //check of plc is connected to server
+                int server_connection_flag = 0;
+                PLC.GetDevice(this.SERVER_CONNECTION_FLAG_MEM, out server_connection_flag);
+
+                if (server_connection_flag != 1)
+                {
+                    return new DataStatus(
+                        this.PLCId,
+                        "failed",
+                        new Status(
+                            false,
+                            new Log(this.PLCId, "PLC maestro desconectado del servidor")
+                        )
+                    );
+                }
+
+                //Console.WriteLine("PLC is connected to server");
+
+                int can_read = 0;
+                PLC.GetDevice(this.READ_MEM, out can_read);
+
+                //Console.WriteLine("can_read: " + can_read);
 
                 return new DataStatus(
                     this.PLCId, 
-                    can_read, 
+                    can_read != 0, 
                     new Status(
                         true, 
-                        new Log(this.PLCId, "ok")
+                        new Log(this.PLCId, "OK")
                     )
                 );
 
@@ -126,71 +141,70 @@ namespace PLCData.PLCConnectionObj
         {
             try
             {
-                
-                int status = 0;
-                PLC.GetDevice(this.readAddress, out status);
 
-                // check if master plc is connected to plc
+                int master_to_slave_disconnection = 0;
+                PLC.GetDevice(this.MASTER_PLC_CONECTION_MEM, out master_to_slave_disconnection);
 
-                if ((status & (1 << MASTER_PLC_CONECTION_BIT)) == 0)
+                if (master_to_slave_disconnection != 0)
                 {
                     return new DataStatus(
                         this.PLCId,
-                        false,
+                        "failed",
                         new Status(
                             false,
-                            new Log(this.PLCId, "Master PLC is not connected to PLC")
+                            new Log(this.PLCId, "Dispositivo desconectado de PLC maestro")
                         )
                     );
                 }
 
+                //check of plc is connected to server
+                int server_connection_flag = 0;
+                PLC.GetDevice(this.SERVER_CONNECTION_FLAG_MEM, out server_connection_flag);
+
+                if (server_connection_flag != 1)
+                {
+                    return new DataStatus(
+                        this.PLCId,
+                        "failed",
+                        new Status(
+                            false,
+                            new Log(this.PLCId, "PLC maestro desconectado del servidor")
+                        )
+                    );
+                }
 
                 // set reading bit on and send it
-                status = TurnBitOn(status, READING_BIT);
-                PLC.SetDevice(this.readAddress, status);
+                PLC.SetDevice(READING_MEM, 1);
 
+                // read serial number
                 string serialNumber = "";
-
-                for(int i = this.serialNumberStartAdress; i < this.serialNumberStartAdress + this.serialNumberLength; i++)
+                foreach (var mem in this.SERIAL_NUMBER_MEMS)
                 {
-                    int value = 0;
-                    PLC.GetDevice(this.serialNumberAdress + i, out value);
-                    // ascii to char
-                    serialNumber += (char)value;
+                    int serialNumberPart = 0;
+                    PLC.GetDevice(mem, out serialNumberPart);
+                    //Console.WriteLine("Reading from memory: " + mem + " value: " + serialNumberPart);
+                    serialNumber += serialNumberPart.ToString();
                 }
 
-                // set reading bit off and read completed bit on and send it
-                status = TurnBitOff(status, READING_BIT);
-                status = TurnBitOn(status, READ_COMPLETED_BIT);
-                PLC.SetDevice(this.readAddress, status);
+                int overbake = 0;
+                PLC.GetDevice(this.STATUS_OVERBAKE_MEM, out overbake);
 
-                string state = "";
-                string gng = "G";
-                
-                // check state bits of ok, overbake and underbake
+                int underbake = 0;
+                PLC.GetDevice(this.STATUS_UNDERBAKE_MEM, out underbake);
 
-                if ((status & (1 << STATUS_OK_BIT)) != 0)
-                {
-                    state = "ok";
-                }
-                else if ((status & (1 << STATUS_OVERBAKE_BIT)) != 0)
-                {
-                    state = "overbake";
-                    gng = "NG";
-                }
-                else if ((status & (1 << STATUS_UNDERBAKE_BIT)) != 0)
-                {
-                    state = "underbake";
-                    gng = "NG";
-                }
+                int ok = 0;
+                PLC.GetDevice(this.STATUS_OK_MEM, out ok);
 
-                // print value
-                Console.WriteLine("Read data from " + this.PLCName + ": " + status);
+                PLC.SetDevice(READING_MEM, 0);
+
+                string status = ok == 1 ? "G" : "NG";
+                string log = overbake == 1 ? "Sobre horneado" : underbake == 1 ? "Bajo horneado" : "OK";
+
 
                 dynamic data = new
                 {
                     serialNumber = serialNumber,
-                    status = gng
+                    status = status
                 };
 
                 return new DataStatus(
@@ -199,7 +213,7 @@ namespace PLCData.PLCConnectionObj
                     new Status(
                         true, 
                         new Log(
-                            this.PLCId, state
+                            this.PLCId, log
                         )
                     )
                 );

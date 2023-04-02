@@ -17,6 +17,7 @@ namespace PLCData
         public bool status = false;
         private UIConnectionCallback callback;
         public PLCReader reader;
+        public bool AutoStart = false;
 
         public UIPLCStatus()
         {
@@ -24,7 +25,7 @@ namespace PLCData
             
         }
 
-        public UIPLCStatus(string name, PLCReader reader)
+        public UIPLCStatus(string name, PLCReader reader, bool autostart = true)
         {
             InitializeComponent();
             this.name = name;
@@ -32,6 +33,7 @@ namespace PLCData
             this.reader = reader;
             this.callback = new UIConnectionCallback(this);
             this.reader.addConnectionCallback(this.callback);
+            this.AutoStart = autostart;
         }
 
         public void setName(string name)
@@ -88,7 +90,7 @@ namespace PLCData
 
         private void UIPLCStatus_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

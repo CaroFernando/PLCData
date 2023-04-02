@@ -1,0 +1,25 @@
+{
+    "NAME": "TOP-COAT 1",
+    "PHYSICAL_ID" : 1,
+    "VIRTUAL_ID" : 3,
+    "STATUS_OK_MEM" : "M1132",
+    "STATUS_OVERBAKE_MEM" : "M1133",
+    "STATUS_UNDERBAKE_MEM" : "M1134",
+    "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+    "MASTER_PLC_CONECTION_MEM" : "M1137",
+    "READ_MEM" : "M1140",
+    "READING_MEM" : "M1141",
+    "READ_COMPLETED_MEM" : "M1142",
+    "SERIAL_NUMBER_MEMS" : [
+        "D520",
+        "D521",
+        "D522",
+        "D523",
+        "D524",
+        "D525",
+        "D526",
+        "D527",
+        "D528",
+        "D529"
+    ]
+}

@@ -64,7 +64,9 @@ namespace PLCData.PLCConnectionObj
         public void start()
         {
             started = true;
-            bool inactiveStatusCalled = false;
+            bool inactiveStatusCalled = true;
+
+            bool intialConnection = true;
 
             Task.Run(() =>
             {
@@ -73,6 +75,19 @@ namespace PLCData.PLCConnectionObj
                     lock (_lock)
                     {
                         DataStatus readok = this.readOk();
+
+                        if (intialConnection)
+                        {
+                            intialConnection = false;
+                            if (readok.status.ok)
+                            {
+                                CallbackOnConnectionSuccess(readok.status.log);
+                            }
+                            else
+                            {
+                                CallbackOnConnectionFailed(readok.status.log);
+                            }
+                        }
 
                         if (readok.status.ok == false)
                         {
@@ -93,6 +108,7 @@ namespace PLCData.PLCConnectionObj
                             if ((bool)readok.data == true)
                             {
                                 DataStatus value = this.readData();
+                                
                                 if (value.status.ok && this.readFlag == false)
                                 {
                                     if (this.readFlag == false)

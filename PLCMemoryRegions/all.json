@@ -1,0 +1,102 @@
+[
+    {
+        "NAME": "ED",
+        "PHYSICAL_ID" : 1,
+        "VIRTUAL_ID" : 1,
+        "STATUS_OK_MEM" : "M1100",
+        "STATUS_OVERBAKE_MEM" : "M1101",
+        "STATUS_UNDERBAKE_MEM" : "M1102",
+        "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+        "MASTER_PLC_CONECTION_MEM" : "M1105",
+        "READ_MEM" : "M1108",
+        "READING_MEM" : "M1109",
+        "READ_COMPLETED_MEM" : "M1110",
+        "SERIAL_NUMBER_MEMS" : [
+            "D500",
+            "D501",
+            "D502",
+            "D503",
+            "D504",
+            "D505",
+            "D506",
+            "D507",
+            "D508",
+            "D509"
+        ]
+    },
+    {
+        "NAME": "FILLER",
+        "PHYSICAL_ID" : 1,
+        "VIRTUAL_ID" : 2,
+        "STATUS_OK_MEM" : "M1116",
+        "STATUS_OVERBAKE_MEM" : "M1117",
+        "STATUS_UNDERBAKE_MEM" : "M1118",
+        "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+        "MASTER_PLC_CONECTION_MEM" : "M1121",
+        "READ_MEM" : "M1124",
+        "READING_MEM" : "M1125",
+        "READ_COMPLETED_MEM" : "M1126",
+        "SERIAL_NUMBER_MEMS" : [
+            "D510",
+            "D511",
+            "D512",
+            "D513",
+            "D514",
+            "D515",
+            "D516",
+            "D517",
+            "D518",
+            "D519"
+        ]
+    },
+    {
+        "NAME": "TOP-COAT 1",
+        "PHYSICAL_ID" : 1,
+        "VIRTUAL_ID" : 3,
+        "STATUS_OK_MEM" : "M1132",
+        "STATUS_OVERBAKE_MEM" : "M1133",
+        "STATUS_UNDERBAKE_MEM" : "M1134",
+        "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+        "MASTER_PLC_CONECTION_MEM" : "M1137",
+        "READ_MEM" : "M1140",
+        "READING_MEM" : "M1141",
+        "READ_COMPLETED_MEM" : "M1142",
+        "SERIAL_NUMBER_MEMS" : [
+            "D520",
+            "D521",
+            "D522",
+            "D523",
+            "D524",
+            "D525",
+            "D526",
+            "D527",
+            "D528",
+            "D529"
+        ]
+    },
+    {
+        "NAME": "TOP-COAT 2",
+        "PHYSICAL_ID" : 1,
+        "VIRTUAL_ID" : 4,
+        "STATUS_OK_MEM" : "M1148",
+        "STATUS_OVERBAKE_MEM" : "M1149",
+        "STATUS_UNDERBAKE_MEM" : "M1150",
+        "SERVER_CONNECTION_FLAG_MEM" : "M1104",
+        "MASTER_PLC_CONECTION_MEM" : "M1153",
+        "READ_MEM" : "M1156",
+        "READING_MEM" : "M1157",
+        "READ_COMPLETED_MEM" : "M1158",
+        "SERIAL_NUMBER_MEMS" : [
+            "D530",
+            "D531",
+            "D532",
+            "D533",
+            "D534",
+            "D535",
+            "D536",
+            "D537",
+            "D538",
+            "D539"
+        ]
+    }
+]
