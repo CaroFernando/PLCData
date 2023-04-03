@@ -21,10 +21,10 @@ namespace PLCData
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            EDReader.start();
-            FILLERReader.start();
-            TOPCOAT1Reader.start();
-            TOPCOAT2Reader.start();
+            UIPLCStatus2.ManualStartStop();
+            UIPLCStatus3.ManualStartStop();
+            UIPLCStatus4.ManualStartStop();
+            UIPLCStatus5.ManualStartStop();
 
             // testReader.start();
         }

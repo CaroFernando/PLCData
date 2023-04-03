@@ -64,6 +64,19 @@ namespace PLCData
 
         }
 
+        public void ManualStartStop(){
+            if (this.reader.started)
+            {
+                this.reader.stop();
+                this.StartStopBtn.Text = "Start";
+            }
+            else
+            {
+                this.reader.start();
+                this.StartStopBtn.Text = "Stop";
+            }
+        }
+
         public void ChangeStatus(bool status)
         {
             Console.WriteLine("STATUS CHANGED UI " + status);
