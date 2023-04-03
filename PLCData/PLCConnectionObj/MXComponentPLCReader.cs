@@ -71,7 +71,7 @@ namespace PLCData.PLCConnectionObj
         {
             try
             {
-                //Console.WriteLine("Trynig to read OK status from PLC " + this.PHYSICAL_ID + " " + this.VIRTUAL_ID);
+                Console.WriteLine("Trynig to read OK status from PLC " + this.PHYSICAL_ID + " " + this.VIRTUAL_ID);
                 // check if the slave plc is connected
                 int master_to_slave_disconnection = 0;
                 PLC.GetDevice(this.MASTER_PLC_CONECTION_MEM, out master_to_slave_disconnection);
@@ -88,9 +88,9 @@ namespace PLCData.PLCConnectionObj
                     );
                 }
 
-                //Console.WriteLine("Master to slave connection is OK");
+                Console.WriteLine("Master to slave connection is OK");
 
-                //check of plc is connected to server
+                // check of plc is connected to server
                 int server_connection_flag = 0;
                 PLC.GetDevice(this.SERVER_CONNECTION_FLAG_MEM, out server_connection_flag);
 
@@ -106,12 +106,12 @@ namespace PLCData.PLCConnectionObj
                     );
                 }
 
-                //Console.WriteLine("PLC is connected to server");
+                Console.WriteLine("PLC is connected to server");
 
                 int can_read = 0;
                 PLC.GetDevice(this.READ_MEM, out can_read);
 
-                //Console.WriteLine("can_read: " + can_read);
+                Console.WriteLine("can_read: " + can_read);
 
                 return new DataStatus(
                     this.PLCId, 
@@ -182,8 +182,9 @@ namespace PLCData.PLCConnectionObj
                 {
                     int serialNumberPart = 0;
                     PLC.GetDevice(mem, out serialNumberPart);
-                    //Console.WriteLine("Reading from memory: " + mem + " value: " + serialNumberPart);
-                    serialNumber += serialNumberPart.ToString();
+                    // Console.WriteLine("Reading from memory: " + mem + " value: " + serialNumberPart);
+                    // serialNumber += serialNumberPart.ToString();
+                    serialNumber += (char)serialNumberPart;
                 }
 
                 int overbake = 0;
@@ -198,7 +199,7 @@ namespace PLCData.PLCConnectionObj
                 PLC.SetDevice(READING_MEM, 0);
 
                 string status = ok == 1 ? "G" : "NG";
-                string log = overbake == 1 ? "Sobre horneado" : underbake == 1 ? "Bajo horneado" : "OK";
+                string log = overbake == 1 ? "Sobre-horneado" : underbake == 1 ? "Bajo-horneado" : "OK";
 
 
                 dynamic data = new

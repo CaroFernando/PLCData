@@ -26,7 +26,6 @@ namespace PLCData.PLCConnectionObj
             log.Status = dataStatus.data.status.ToString();
             log.Message = dataStatus.status.log.Message;
             
-
             // serialize and sent to api
             string json = JsonSerializer.Serialize(log);
 

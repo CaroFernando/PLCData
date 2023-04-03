@@ -44,7 +44,7 @@ namespace PLCData.PLCConnectionObj
             }
 
             // randomly choose between ok, overbaked and underbake
-            string status = "gg";
+            string status = "G";
             string state = "";
             
             switch (new Random().Next(0, 3))
@@ -54,11 +54,11 @@ namespace PLCData.PLCConnectionObj
                     break;
                 case 1:
                     state = "overbaked";
-                    status = "ng";
+                    status = "NG";
                     break;
                 case 2:
                     state = "underbaked";
-                    status = "ng";
+                    status = "NG";
                     break;
             }
 

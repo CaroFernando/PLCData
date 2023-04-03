@@ -43,7 +43,7 @@ namespace PLCData.PLCConnectionObj
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("API connection call 1 failed: " + e.Message);
             }
 
             try
@@ -56,7 +56,7 @@ namespace PLCData.PLCConnectionObj
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("API connection call 2 failed: " + e.Message);
             }
 
         }

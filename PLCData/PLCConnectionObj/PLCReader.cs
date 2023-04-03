@@ -64,7 +64,7 @@ namespace PLCData.PLCConnectionObj
         public void start()
         {
             started = true;
-            bool inactiveStatusCalled = true;
+            bool inactiveStatusCalled = false;
 
             bool intialConnection = true;
 
@@ -129,7 +129,7 @@ namespace PLCData.PLCConnectionObj
                             }
                         }
                     }
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(20);
                 }
             });
         }
